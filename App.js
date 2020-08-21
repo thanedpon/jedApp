@@ -15,22 +15,27 @@ import {
   Text,
   StatusBar,
   AppState,
+  YellowBox
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-// import { createStackNavigator } from 'react-navigation-stack';
 
-import LoginPage from './src/components/Login/login';
-import Home from './src/components/Home/home';
+
+import LoginPage from './src/View/Login/login';
+import Home from './src/View/Home/home';
+import Profile from './src/View/profile/profile';
+import AddProfile from './src/View/profile/addProfile';
+import Dashboard from './src/View/Dashboard/dashboard';
+
+
 
 export default class App extends React.Component {
+  constructor(props){
+    super(props);
+    YellowBox.ignoreWarnings(['']);
+  }
+
+
   render() {
     /* In the root component we are rendering the app navigator */
     return (
@@ -42,7 +47,10 @@ export default class App extends React.Component {
 
 const AppNavigator = createSwitchNavigator({
   LoginPage: LoginPage,
-  Home: Home
+  Home: Home,
+  Profile: Profile,
+  AddProfile: AddProfile,
+  Dashboard: Dashboard,
 })
 
 const AppContainer = createAppContainer(AppNavigator);

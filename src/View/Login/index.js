@@ -13,26 +13,26 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         ...Platform.select({
-          ios: {
-            backgroundColor: 'white'
-          },
-          android: {
-            backgroundColor: 'white'
-          },
-          default: {
-            // other platforms, web for example
-            backgroundColor: 'blue'
-          }
+            ios: {
+                backgroundColor: 'white'
+            },
+            android: {
+                backgroundColor: 'white'
+            },
+            default: {
+                // other platforms, web for example
+                backgroundColor: 'blue'
+            }
         }),
         alignItems: 'center'
     },
-      loginbox: {
+    loginbox: {
         shadowColor: 'grey',
         paddingTop: 40,
         paddingBottom: 40,
         ...Platform.select({
             ios: {
-                marginTop: WIDTH  - 250
+                marginTop: WIDTH - 250
             },
             android: {
                 marginTop: WIDTH - 270
@@ -43,7 +43,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         ...Platform.select({
             ios: {
-                width: WIDTH/2,
+                width: WIDTH / 2,
                 height: 40,
             },
             android: {
@@ -55,7 +55,6 @@ export default StyleSheet.create({
     section: {
         flexDirection: 'row',
         //width: WIDTH - 100,
-        paddingVertical: 15,
         paddingHorizontal: 10,
         marginHorizontal: 25,
         borderBottomWidth: 1,
@@ -63,11 +62,13 @@ export default StyleSheet.create({
         ...Platform.select({
             ios: {
                 width: WIDTH - 100,
-                height: 40,
+                height: 50,
+                paddingVertical: 15,
             },
             android: {
-                height: 40,
+                height: 50,
                 width: WIDTH - 100,
+                paddingVertical: 5,
             }
         })
     },
@@ -87,9 +88,9 @@ export default StyleSheet.create({
         })
     },
     input: {
-        borderRadius: 15,
+        //borderRadius: 10,
         fontSize: 13,
-        paddingLeft: 15,
+        //paddingLeft: 10,
         color: 'black',
     },
     btnLogin: {
@@ -112,9 +113,9 @@ export default StyleSheet.create({
             ios: {
                 right: 70,
                 marginTop: 20,
-                flexDirection:'row',
-                alignItems:'center',
-                justifyContent:'center',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
 
             },
             android: {
@@ -130,15 +131,40 @@ export default StyleSheet.create({
     },
     backButton: {
         ...Platform.select({
-            ios:{
+            ios: {
                 top: WIDTH - 350,
                 marginRight: WIDTH - 60
             },
             android: {
-                top:30,
+                top: 30,
                 marginRight: WIDTH - 60
             }
         })
-    }
+    },
+    pinCodeContainer: {
+        marginTop: 50,
+    },
+    pinCodePin: {
+        borderRadius: 26,
+        backgroundColor: '#f9f9f9',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: '#e3e5e7',
+    },
+    pinCodeFocused: {
+        borderRadius: 26,
+        backgroundColor: '#f9f9f9',
+        borderStyle: 'solid',
+        borderWidth: 1.5,
+        borderColor: 'black',
+    },
+    pinCodeText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        fontStyle: 'normal',
+        letterSpacing: 0,
+        textAlign: 'center',
+        color: 'black',
+    },
 
 })
