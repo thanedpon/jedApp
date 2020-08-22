@@ -24,9 +24,10 @@ import styles from './index.js';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import { Header } from 'react-native-elements';
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import PPPCSectionHeader from '../../components/commonComponent/PPPCHeaderSection/PPPCSectionHeader';
-import PPPCSectionHeader2 from '../../components/commonComponent/PPPCHeaderSection/PPPCSectionHeader2';
+
 const { width: WIDTH } = Dimensions.get('window');
 
 
@@ -38,11 +39,26 @@ export default class AddProfile extends React.Component {
             status: null,
             selectedIndex: 0,
             firstname: '',
-            lastname: ''
+            lastname: '',
+            enable: false,
+            initialArr: [
+                {
+                    id: 1,
+                    title: `${langSearchPPPC.th.RequiredInformation}`,
+                    firstname: `${langSearchPPPC.th.username}`,
+                    enable: false
+                },
+                {
+                    id: 2,
+                    title: `${langSearchPPPC.th.RequiredInformation}`,
+                    firstname: `${langSearchPPPC.th.lastname}`,
+                    enable: false
+                }
+
+            ]
         }
+
     }
-
-
 
     backButton() {
         return (
@@ -81,11 +97,38 @@ export default class AddProfile extends React.Component {
                 />
                 {this.state.selectedIndex == '0' ?
                     <View>
-                        <PPPCSectionHeader
+                        {
+                            this.state.initialArr.map((prop, key) => {
+                                return (
+                                    <View>
+                                        <PPPCSectionHeader
+                                            key={key}
+                                            style={styles.SECTION_HEADER}
+                                            name={prop.title}
+                                            firstname={prop.firstname}
+                                            required
+                                            //status= {this.state.enable == true ? { height = {height: hp('40%')}} : null}
+                                            onPress={() => this.setState({ enable: !prop.enable })} 
+                                            
+                                        />
+
+                                        {this.state.enable == true ?
+                                            <View />
+                                            :
+                                            <View style={{ height: '15%' }} />
+                                        }
+                                    </View>
+
+                                );
+                            })
+                        }
+                        {/* 
+                       <PPPCSectionHeader
                             name={`${langSearchPPPC.th.RequiredInformation}`}
                             required
                             testID={'tab'}
-                        />
+                        /> */}
+
                     </View>
                     :
                     <PPPCSectionHeader name={`${langSearchPPPC.th.SC}`} />

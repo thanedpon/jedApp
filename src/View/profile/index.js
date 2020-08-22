@@ -72,10 +72,22 @@ export default StyleSheet.create({
     },
     avatar: {
         //borderRadius: 20,
-        marginBottom:10,
-        alignSelf:'center',
+        marginBottom: 10,
+        alignSelf: 'center',
         position: 'absolute',
         marginTop: '5%',
         width: '28%'
     },
+    SECTION_HEADER: {
+        marginTop: 10,
+        shadowColor: 'rgba(227, 229, 231, 0.5)',
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowRadius: 0,
+        shadowOpacity: 1,
+        elevation: 2,
+        paddingHorizontal: 15,
+    }
 })

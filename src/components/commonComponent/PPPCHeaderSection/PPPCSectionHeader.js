@@ -16,7 +16,7 @@ import { images } from '../../../assets/images';
 import { colors } from '../../../assets/styles/colors';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { langSearchPPPC } from '../../../assets/languages/langSearchPPPC';
-import PPPCSectionHeader2 from './PPPCSectionHeader2';
+// import PPPCSectionHeader2 from './PPPCSectionHeader2';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import styles from './index';
 
@@ -38,7 +38,7 @@ export default class PPPCSectionHeader extends React.Component {
 
   render() {
     return (
-      <View style={styles.CONTAINER}>
+      <View style={[styles.CONTAINER]}>
         {this.state.enable == false ?
           <View>
             <TouchableOpacity style={styles.TouchableClose} >
@@ -53,16 +53,15 @@ export default class PPPCSectionHeader extends React.Component {
                     }
                   </Text>
                 </View>
-                <TouchableOpacity onPress={() => this.setState({ enable: !this.state.enable })} testID="open">
+                <TouchableOpacity onPress={() => this.setState({ enable: this.props.onPress })} testID="open">
                   <Icon name={'chevron-down'} style={styles.ICON} />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
-            <PPPCSectionHeader2 />
           </View>
           :
-          <View style={styles.CONTAINER}>
-            <TouchableOpacity style={styles.TouchableOpen}>
+          <View style={[styles.CONTAINER]}>
+            <TouchableOpacity style={[styles.TouchableOpen]}>
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: 'gray', }}>
                 <Image source={images.required} style={styles.SECTION_IMAGE_OPEN} />
                 <View style={{ top: '-32%', left: 15 }}>
@@ -90,7 +89,7 @@ export default class PPPCSectionHeader extends React.Component {
                 <View style={{ top: '0%', right: '145%' }}>
                   <View style={{ flexDirection: 'row', top: wp('-7%') }}>
                     <Text style={styles.TEXT}>
-                      {`${langSearchPPPC.th.username}`}
+                      {`${this.props.firstname}`}
                       <Text style={{ color: colors.google }}>{'*'}</Text>
                     </Text>
                     <Text style={[styles.TEXT, { left: wp('33%') }]}>
@@ -115,13 +114,12 @@ export default class PPPCSectionHeader extends React.Component {
                   />
                 </View>
 
-                <TouchableOpacity onPress={() => this.setState({ enable: !this.state.enable })} testID="close">
+                <TouchableOpacity onPress={() => this.setState({ enable: !this.props.onPress })} testID="close">
                   <Icon name={'chevron-up'} style={{ left: wp('-65%'), top: '-42%' }} />
                 </TouchableOpacity>
 
               </View>
             </TouchableOpacity>
-            <PPPCSectionHeader2 />
           </View>
         }
       </View>
