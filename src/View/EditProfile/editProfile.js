@@ -72,9 +72,6 @@ class editProfile extends React.Component {
         )
     }
 
-    changeName(text) {
-        this.setState({ firstname: text.firstname })
-    }
 
     async updateProfile(data) {
         const { id, firstname, lastname, email, mobile_phone, token } = this.state;

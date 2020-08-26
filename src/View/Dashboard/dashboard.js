@@ -96,7 +96,6 @@ export default class Dashboard extends React.Component {
     }
 
     backButton() {
-        console.log('1')
         return (
             <View>
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Profile') }}  >
@@ -112,17 +111,20 @@ export default class Dashboard extends React.Component {
         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
         return (
             <View style={styles.container}>
-                <Header
-                    barStyle="light-content"
-                    leftComponent={this.backButton()}
-                    centerComponent={{ text: 'เพิ่มรายชื่อ', style: { color: 'black' } }}
-                    containerStyle={{
-                        backgroundColor: 'white',
-                        justifyContent: 'space-around',
-                    }}
-                />
-
-                <View style={styles.content}>
+                <View style={styles.container}>
+                    <Header
+                        barStyle="light-content"
+                        leftComponent={this.backButton()}
+                        centerComponent={{ text: 'เพิ่มรายชื่อ', style: { color: 'black' } }}
+                        containerStyle={{
+                            backgroundColor: 'white',
+                            justifyContent: 'space-around',
+                            // top: '-197%'
+                        }}
+                    />
+                </View>
+                
+                <View style={[styles.content, {top: wp('-75%') }]}>
                     <View>
                         <Text style={{ right: wp('-4%'), top: wp('2%') }} testID={'firstname'}>
                             {`${langSearchPPPC.th.username}`}
@@ -217,7 +219,7 @@ export default class Dashboard extends React.Component {
                         />
                     </View>
 
-                    <TouchableOpacity style={[styles.btnLogin, { left: '-0%', top: '20%' }]} onPress={this.valid} testID="test">
+                    <TouchableOpacity style={[styles.btnLogin, { left: '-0%', top: '35%' }]} onPress={this.valid} testID="test">
                         <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >เพิ่มรายชื่อ</Text>
                     </TouchableOpacity>
                 </View>
