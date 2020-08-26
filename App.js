@@ -27,6 +27,7 @@ import Profile from './src/View/profile/profile';
 import AddProfile from './src/View/profile/addProfile';
 import Dashboard from './src/View/Dashboard/dashboard';
 import EditProfile from './src/View/EditProfile/editProfile';
+import CreateProfile from './src/View/CreateProfile/createProfile';
 
 
 
@@ -53,6 +54,7 @@ const AppNavigator = createSwitchNavigator({
   Profile: Profile,
   Dashboard: Dashboard,
   AddProfile: AddProfile,
+  CreateProfile: CreateProfile,
   EditProfile: EditProfile,
 })
 

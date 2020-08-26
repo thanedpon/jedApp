@@ -97,17 +97,17 @@ export default class LoginPage extends React.Component {
                         <View style={[styles.section, { marginTop: 20 }]}>
                             <TextInput
                                 placeholder="ชื่อผู้ใช้งาน"
-                                style={styles.input}
+                                style={[styles.input]}
                                 onChangeText={(username) => this.setState({ username })}
                                 value={this.state.username}
                                 testID="username"
                             />
 
                         </View>
-                        <View style={[styles.section, { marginTop: 20 }]}>
+                        <View style={[styles.section, { marginTop: 20}]}>
                             <TextInput
                                 placeholder="รหัสผ่าน"
-                                style={[styles.input, { left: 10 }]}
+                                style={[styles.input]}
                                 onChangeText={(password) => this.setState({ password })}
                                 value={this.state.password}
                                 secureTextEntry

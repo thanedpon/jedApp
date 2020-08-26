@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { colors } from '../../assets/styles/colors';
 const { width: WIDTH } = Dimensions.get('screen')
 
 export default StyleSheet.create({
@@ -14,10 +15,10 @@ export default StyleSheet.create({
         flex: 1,
         ...Platform.select({
             ios: {
-                backgroundColor: 'white'
+                backgroundColor: colors.white
             },
             android: {
-                backgroundColor: 'white'
+                backgroundColor: colors.white
             },
             default: {
                 // other platforms, web for example
@@ -27,7 +28,7 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
     loginbox: {
-        shadowColor: 'grey',
+        shadowColor: colors.slateGrey,
         paddingTop: 40,
         paddingBottom: 40,
         ...Platform.select({
@@ -58,7 +59,7 @@ export default StyleSheet.create({
         paddingHorizontal: 10,
         marginHorizontal: 25,
         borderBottomWidth: 1,
-        borderBottomColor: 'gray',
+        borderBottomColor: colors.slateGrey,
         ...Platform.select({
             ios: {
                 width: WIDTH - 100,
@@ -88,24 +89,23 @@ export default StyleSheet.create({
         })
     },
     input: {
-        //borderRadius: 10,
         fontSize: 13,
-        //paddingLeft: 10,
-        color: 'black',
+        width: '90%',
+        color: colors.black,
     },
     btnLogin: {
         width: WIDTH - 100,
         height: 45,
         borderRadius: 5,
         paddingLeft: 15,
-        backgroundColor: '#FD0401',
+        backgroundColor: colors.red,
         marginTop: 35,
         justifyContent: 'center',
         marginHorizontal: 25,
         alignItems: 'center'
     },
     title: {
-        color: 'white',
+        color: colors.white,
         fontWeight: 'bold',
     },
     checkbox: {
@@ -127,7 +127,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: 25,
-        color: 'black',
+        color: colors.black50,
     },
     backButton: {
         ...Platform.select({
@@ -146,17 +146,17 @@ export default StyleSheet.create({
     },
     pinCodePin: {
         borderRadius: 26,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: colors.backgroundf9,
         borderStyle: 'solid',
         borderWidth: 1,
-        borderColor: '#e3e5e7',
+        borderColor: colors.silver,
     },
     pinCodeFocused: {
         borderRadius: 26,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: colors.white249,
         borderStyle: 'solid',
         borderWidth: 1.5,
-        borderColor: 'black',
+        borderColor: colors.black50,
     },
     pinCodeText: {
         fontSize: 18,
@@ -164,7 +164,7 @@ export default StyleSheet.create({
         fontStyle: 'normal',
         letterSpacing: 0,
         textAlign: 'center',
-        color: 'black',
+        color: colors.black50,
     },
 
 })

@@ -178,7 +178,7 @@ export default class Profile extends React.Component {
                         }} />
                 </View>
                 <Menu />
-                <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '-5%', backgroundColor: 'orange' }]} onPress={() => { this.props.navigation.navigate('Dashboard') }} testID="test">
+                <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '-5%', backgroundColor: 'orange' }]} onPress={() => { this.props.navigation.navigate('CreateProfile') }} testID="test">
                     <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >เพิ่ม PP </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '-5%' }]} onPress={() => { this.props.navigation.navigate('AddProfile') }} testID="addPP">
