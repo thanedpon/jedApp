@@ -10,7 +10,21 @@ export const langSearchPPPC = {
         Required: 'ต้องการ',
         Additional: 'เพิ่มเติม',
         username: 'ชื่อ',
-        lastname: 'นามสกุล'
+        lastname: 'นามสกุล',
+        Email: 'อีเมล',
+        PhoneNumber: 'เบอร์ติดต่อ',
+        Save: 'บันทึก',
+        CANCEL: 'ยกเลิก',
+        Yes: 'ใช่',
+        No: 'ไม่ใช่',
+        EditPP: 'แก้ไข',
+        EditPC: 'แก้ไข',
+        EditPS: 'แก้ไขลูกค้ามุ่งหวัง',
+    
+        // DropDown
+        PlaceholderEnterYourKeyword: 'กรุณาใส่ข้อมูล',
+        DONE: 'บันทึก',
+        Close: 'ปิด',
     }
 }
 

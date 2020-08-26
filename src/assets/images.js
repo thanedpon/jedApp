@@ -6,12 +6,16 @@ export const images = {
     // mark
     arrow: require('../assets/image/arrow-back.png'),
     logout: require('../assets/image/icLogout.png'),
+    chevronDown: require('../assets/image/chevron-down.png'),
+    chevronUp: require('../assets/image/chevron-up.png'),
+    chat: require('../assets/image/ic_contact_information.png'),
+    personal: require('../assets/image/ic_personal_information.png'),
 
     // Home
     profile: require('../assets/image/icMenuSearch.png'),
     reminder: require('../assets/image/ic_followup_reminder.png'),
     dashboard: require('../assets/image/icMenuDashboard.png'),
-    saleTools: require('../assets/image/icFloatingSaleToolsInactive.png'),
+    saleTools: require('../assets/image/icMenuSaleTools.png'),
     menuList: require('../assets/image/icMenuList.png'),
     setting: require('../assets/image/icMenuSetting.png'),
     /*  white */

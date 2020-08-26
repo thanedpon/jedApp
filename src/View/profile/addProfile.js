@@ -24,7 +24,13 @@ import styles from './index.js';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import { Header } from 'react-native-elements';
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
+import DropDownItem from "react-native-drop-down-item";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { colors } from '../../assets/styles/colors';
+import { Arr } from '../mock/PPPCData';
+
+
 
 import PPPCSectionHeader from '../../components/commonComponent/PPPCHeaderSection/PPPCSectionHeader';
 
@@ -37,40 +43,33 @@ export default class AddProfile extends React.Component {
         super(props);
         this.state = {
             status: null,
+            enable: false,
             selectedIndex: 0,
+            screenHeight: 0,
             firstname: '',
             lastname: '',
-            enable: false,
-            initialArr: [
-                {
-                    id: 1,
-                    title: `${langSearchPPPC.th.RequiredInformation}`,
-                    firstname: `${langSearchPPPC.th.username}`,
-                    enable: false
-                },
-                {
-                    id: 2,
-                    title: `${langSearchPPPC.th.RequiredInformation}`,
-                    firstname: `${langSearchPPPC.th.lastname}`,
-                    enable: false
-                }
-
-            ]
         }
 
     }
 
+    onContentSizeChange = (contentWidth, contentHeight) => {
+        this.setState({ screenHeight: contentHeight });
+    };
+
     backButton() {
         return (
-            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Profile') }}>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Profile') }} >
                 <Image source={images.arrow} style={{ height: 15, width: 25 }} />
             </TouchableOpacity>
         )
     }
 
+ 
+
     render() {
+        const scrollEnable = false;
         return (
-            <View style={{ backgroundColor: '#F9F8F8', flex: 1 }}>
+            <View style={styles.container}>
                 <Header
                     barStyle="light-content"
                     leftComponent={this.backButton()}
@@ -80,10 +79,10 @@ export default class AddProfile extends React.Component {
                         justifyContent: 'space-around',
                     }}
                 />
-                <View style={{ backgroundColor: '#F9F8F8', width: '100%', height: '18%' }}>
+                <View style={styles.Section_Avatar}>
                     <Image source={images.photo} style={styles.avatar} />
                 </View>
-
+                
                 <SegmentedControlTab
                     values={[langSearchPPPC.th.Required, langSearchPPPC.th.Additional]}
                     selectedIndex={this.state.selectedIndex}
@@ -97,38 +96,39 @@ export default class AddProfile extends React.Component {
                 />
                 {this.state.selectedIndex == '0' ?
                     <View>
-                        {
-                            this.state.initialArr.map((prop, key) => {
-                                return (
-                                    <View>
-                                        <PPPCSectionHeader
-                                            key={key}
-                                            style={styles.SECTION_HEADER}
-                                            name={prop.title}
-                                            firstname={prop.firstname}
-                                            required
-                                            //status= {this.state.enable == true ? { height = {height: hp('40%')}} : null}
-                                            onPress={() => this.setState({ enable: !prop.enable })} 
-                                            
-                                        />
-
-                                        {this.state.enable == true ?
-                                            <View />
-                                            :
-                                            <View style={{ height: '15%' }} />
-                                        }
-                                    </View>
-
-                                );
-                            })
-                        }
-                        {/* 
-                       <PPPCSectionHeader
-                            name={`${langSearchPPPC.th.RequiredInformation}`}
-                            required
-                            testID={'tab'}
-                        /> */}
-
+                        <ScrollView style={{ alignSelf: 'stretch' }} onContentSizeChange={this.onContentSizeChange} testID={'screen'}>
+                            {
+                                Arr.map((prop, key) => {
+                                    return (
+                                        <View>
+                                            <ScrollView style={{ alignSelf: 'stretch' }} scrollEnabled={scrollEnable} >
+                                                <PPPCSectionHeader
+                                                    key={key}
+                                                    style={styles.SECTION_HEADER}
+                                                    id={prop.id}
+                                                    name={prop.title}
+                                                    firstname={prop.firstname}
+                                                    image={prop.image}
+                                                    testIDUsername={prop.testUsername}
+                                                    testIDPassword={prop.testPasswords}
+                                                    required
+                                                />
+                                                {this.state.enable == true ?
+                                                    <View />
+                                                    :
+                                                    <View style={{ height: '15%' }} />
+                                                }
+                                            </ScrollView>
+                                        </View>
+                                    );
+                                })
+                            }
+                        <View>
+                            <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '10%' }]}  testID="addPP">
+                                <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >{`${langSearchPPPC.th.Save}`}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </ScrollView>
                     </View>
                     :
                     <PPPCSectionHeader name={`${langSearchPPPC.th.SC}`} />

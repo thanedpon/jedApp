@@ -19,8 +19,10 @@ import {
 import { images } from '../../assets/images.js';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { CheckBox } from 'react-native-elements';
+import moment from 'moment';
 import styles from './index.js';
 import PinLogin from './pinlogin';
+import Api from '../../api/allApi';
 
 
 
@@ -35,18 +37,43 @@ export default class LoginPage extends React.Component {
             enable: false,
             checked: this.props.checked,
             pinenable: this.props.pinenable,
-            status : 'SM'
+            status: 'SM',
         }
     }
 
-    handleOnPress() {this.setState({ checked: !this.state.checked })}
+    handleOnPress() { this.setState({ checked: !this.state.checked }) }
 
-    checkAuth = async () => {
-        if (this.state.username == 'Sm01' && this.state.password == '123456'){
-            await AsyncStorage.setItem('Status', `${this.state.status}`);
-            this.props.navigation.navigate('Home', { status: this.state.status })
-        } else {
-            this.setState({ enable: !this.state.enable })
+    async checkAuth() {
+        const { username, password } = this.state;
+        if (username != '' && password != '') {
+            let signInPayload = {
+                username: this.state.username,
+                password: this.state.password,
+                lastLogin_At: moment().format('YYYY-MM-DDTHH:mm:ss')
+            }
+
+            Api.SignIn(signInPayload)
+                .then(res => {
+                    if (res.data.token) {
+                        if (res.data.status == 'SM') {
+                            let UID = {
+                                token: `${res.data.token}`,
+                                status: `${res.data.status}`
+                            }
+                            AsyncStorage.setItem('Token', JSON.stringify(UID));
+                            this.props.navigation.navigate('Home', { status: `${res.data.status}` })
+                        }
+                        else {
+                            let UID = {
+                                token: `${res.data.token}`,
+                                status: `${res.data.status}`
+                            }
+                            // Alert.alert(res.data.status, res.data.token)
+                            AsyncStorage.setItem('Token', JSON.stringify(UID));
+                            this.props.navigation.navigate('Home', { status: `${res.data.status}` })
+                        }
+                    }
+                })
         }
     }
 
@@ -56,7 +83,7 @@ export default class LoginPage extends React.Component {
                 {this.state.enable == true ?
                     <View style={styles.backButton}>
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('Home')}>
-                            <Image source={images.arrow} style={{height: 15, width: 25}} />
+                            <Image source={images.arrow} style={{ height: 15, width: 25 }} />
                         </TouchableOpacity>
                     </View>
                     : false}
@@ -73,18 +100,18 @@ export default class LoginPage extends React.Component {
                                 style={styles.input}
                                 onChangeText={(username) => this.setState({ username })}
                                 value={this.state.username}
-                                testID= "username"
+                                testID="username"
                             />
-                           
+
                         </View>
                         <View style={[styles.section, { marginTop: 20 }]}>
                             <TextInput
                                 placeholder="รหัสผ่าน"
-                                style={[styles.input,{left:10}]}
+                                style={[styles.input, { left: 10 }]}
                                 onChangeText={(password) => this.setState({ password })}
                                 value={this.state.password}
                                 secureTextEntry
-                                testID= "password"
+                                testID="password"
                             />
                         </View>
                         <View style={[styles.checkbox]}>
@@ -106,7 +133,7 @@ export default class LoginPage extends React.Component {
                         </TouchableOpacity>
                     </View>
                     :
-                    <PinLogin navigation={this.props.navigation}/>
+                    <PinLogin navigation={this.props.navigation} />
                 }
 
             </View>

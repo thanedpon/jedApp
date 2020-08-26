@@ -26,6 +26,8 @@ import Home from './src/View/Home/home';
 import Profile from './src/View/profile/profile';
 import AddProfile from './src/View/profile/addProfile';
 import Dashboard from './src/View/Dashboard/dashboard';
+import EditProfile from './src/View/EditProfile/editProfile';
+
 
 
 
@@ -49,8 +51,9 @@ const AppNavigator = createSwitchNavigator({
   LoginPage: LoginPage,
   Home: Home,
   Profile: Profile,
-  AddProfile: AddProfile,
   Dashboard: Dashboard,
+  AddProfile: AddProfile,
+  EditProfile: EditProfile,
 })
 
 const AppContainer = createAppContainer(AppNavigator);

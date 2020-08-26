@@ -15,7 +15,7 @@ export default StyleSheet.create({
     },
     TouchableOpen: {
         width: wp('100%'),
-        height: hp('35%'),
+        height: hp('36%'),
         backgroundColor: colors.white249,
     },
     SECTION_CONTENT: {
@@ -35,7 +35,7 @@ export default StyleSheet.create({
         width: wp('6.5%'), 
         height: hp('3%'), 
         marginRight: 5, 
-        top: '-32%', 
+        top: '-28%', 
         left: 10
     },
     SECTION_TEXT: {
@@ -78,7 +78,21 @@ export default StyleSheet.create({
         right: '132%',
         width: '20%',
         flexDirection: 'row'
-    }
+    },
+    btnLogin: {
+        width: WIDTH - 50,
+        height: 45,
+        borderRadius: 5,
+        paddingLeft: 15,
+        backgroundColor: '#FD0401',
+        marginLeft: '42%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    titleButton: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
 
 
 })

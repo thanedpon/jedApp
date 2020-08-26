@@ -1,14 +1,20 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 const { width: WIDTH } = Dimensions.get('window')
+import { colors } from '../../assets/styles/colors';
 
 
 export default StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.searchColor
+    },
     btnLogin: {
         width: WIDTH - 50,
         height: 45,
         borderRadius: 5,
         paddingLeft: 15,
-        backgroundColor: '#FD0401',
+        backgroundColor: colors.red,
         marginLeft: '42%',
         justifyContent: 'center',
         alignItems: 'center'
@@ -31,14 +37,14 @@ export default StyleSheet.create({
         })
     },
     titleButton: {
-        color: 'white',
+        color: colors.white,
         fontWeight: 'bold',
     },
     searchBox: {
         paddingLeft: 10,
         width: WIDTH,
         height: 40,
-        backgroundColor: 'white',
+        backgroundColor: colors.white,
         marginTop: '-40%'
     },
     /********** SegmentControlTab **************/
@@ -51,15 +57,15 @@ export default StyleSheet.create({
     },
     tabStyle: {
         top: '-75%',
-        backgroundColor: 'white',
-        borderColor: '#F9F8F8',
+        backgroundColor: colors.white,
+        borderColor: colors.navbarBackgroundColor,
         paddingVertical: 5
     },
     tabText: {
-        color: 'gray'
+        color: colors.lightGrey
     },
     activeTab: {
-        backgroundColor: 'red'
+        backgroundColor: colors.red
     },
     item: {
         backgroundColor: '#f9c2ff',
@@ -70,8 +76,12 @@ export default StyleSheet.create({
     titletext: {
         fontSize: 20,
     },
+    Section_Avatar : {
+        backgroundColor: colors.navbarBackgroundColor, 
+        width: '100%', 
+        height: '18%'
+    },
     avatar: {
-        //borderRadius: 20,
         marginBottom: 10,
         alignSelf: 'center',
         position: 'absolute',
@@ -80,7 +90,7 @@ export default StyleSheet.create({
     },
     SECTION_HEADER: {
         marginTop: 10,
-        shadowColor: 'rgba(227, 229, 231, 0.5)',
+        shadowColor: colors.lightGrey,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -89,5 +99,35 @@ export default StyleSheet.create({
         shadowOpacity: 1,
         elevation: 2,
         paddingHorizontal: 15,
-    }
+    },
+    SECTION_IMAGE: {
+        width: wp('6.5%'), 
+        height: hp('3%'), 
+        marginRight: 5, 
+        top: '0%', 
+        left: 10
+    },
+    SECTION_IMAGE_OPEN: {
+        width: wp('6.5%'), 
+        height: hp('3%'), 
+        marginRight: 5, 
+        top: '-32%', 
+        left: 10
+    },
+    TEXT: {
+        color: colors.backgroundf9
+    },
+    SECTION_TEXTINPUT: {
+        fontSize: 13,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.black50,
+        width: wp('90%'),
+        height: '15%',
+        top: '-2%'
+    },
+    animationstyle: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 })

@@ -15,7 +15,7 @@ import {
     Alert,
     Platform,
     FlatList,
-    Animated,
+    ActivityIndicator,
     AsyncStorage
 } from 'react-native';
 
@@ -24,13 +24,12 @@ import styles from './index.js';
 import Menu from '../../components/menu/menu';
 import { Header } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
-import {langSearchPPPC} from '../../assets/languages/langSearchPPPC';
+import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
+import Api from '../../api/allApi';
 
 const { width: WIDTH } = Dimensions.get('window');
 let dataPersonal;
 let dataPostpect;
-
-
 
 
 export default class Profile extends React.Component {
@@ -39,6 +38,11 @@ export default class Profile extends React.Component {
         this.state = {
             status: null,
             selectedIndex: 0,
+            id: '',
+            DATA_PROFILE: '',
+            loading: true,
+            isRefreshing: false,
+            data: '',
             DATA: [
                 {
                     id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -78,19 +82,39 @@ export default class Profile extends React.Component {
 
 
     componentDidMount = async () => {
-        await AsyncStorage.getItem('Status').then((status) => this.setState({ status: `${status}` }))
-        this.checkdata();   
+        try {
+            this.fetchData();
+        } catch (err) {
+            console.log(err)
+        }
     }
 
+    fetchData = async () => {
+        try {
+            const retrievedItem = await AsyncStorage.getItem('Token');
+            const retrievedId = await AsyncStorage.getItem('userId');
+            const item = JSON.parse(retrievedItem);
+            this.setState({ status: item.status, id: retrievedId });
+            Api.getProfileData(item.token)
+                .then((res) => {
+                    dataPersonal = res.data.data.filter(function (item) {
+                        return item.status == 'PP' || item.status == 'PC';
+                    });
+                    dataPostpect = res.data.data.filter(function (item) {
+                        return item.status == 'PS'
+                    });
+                    this.setState({
+                        DATA_PROFILE: res.data.data,
+                        isRefreshing: false,
+                    });
+                })
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
-
-    checkdata() {
-        dataPersonal =  this.state.DATA.filter(function(item) {
-            return item.status == 'PP' || item.status == 'PC';
-        });
-        dataPostpect = this.state.DATA.filter(function(item){
-            return item.status == 'PS'
-        });
+    handleRefresh = () => {
+        this.setState({ isRefreshing: true }, () => { this.fetchData(); })
     }
 
     backButton() {
@@ -107,7 +131,7 @@ export default class Profile extends React.Component {
                 <Header
                     barStyle="light-content"
                     leftComponent={this.backButton()}
-                    centerComponent={{ text: langSearchPPPC.th.Search , style: { color: 'black' } }}
+                    centerComponent={{ text: langSearchPPPC.th.Search, style: { color: 'black' } }}
                     containerStyle={{
                         backgroundColor: 'white',
                         justifyContent: 'space-around',
@@ -123,7 +147,7 @@ export default class Profile extends React.Component {
                         testID="search"
                     />
                 </View>
-                <SegmentedControlTab 
+                <SegmentedControlTab
                     tabsContainerStyle={styles.tabContainer}
                     tabStyle={styles.tabStyle}
                     tabTextStyle={styles.tabText}
@@ -133,26 +157,30 @@ export default class Profile extends React.Component {
                     selectedIndex={this.state.selectedIndex}
                     onTabPress={index => this.setState({ selectedIndex: index })}
                     accessibilityLabels="Tap me!"
-                    
-                    
                 />
+
                 <View style={{ flex: 3, marginTop: '-58%' }}>
                     <FlatList
-                        data={this.state.selectedIndex == '1' ? dataPersonal : this.state.selectedIndex == '2' ? dataPostpect : this.state.DATA}
-                        keyExtractor={(item) =>item.id}
+                        data={this.state.selectedIndex == '1' ? dataPersonal : this.state.selectedIndex == '2' ? dataPostpect : this.state.DATA_PROFILE}
+                        keyExtractor={(item) => item.id}
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={this.handleRefresh}
                         renderItem={({ item }) => {
                             return (
                                 <View style={styles.item}>
-                                    <TouchableOpacity>
-                                        <Text style={styles.titletext}>{`${item.firstname} ${item.surname}`}</Text>
-                                        <Text style={{ fontSize: 13 }}>{`หมายเลขบุคคล/บริษัท ${item.nationalId}`}</Text>
-                                        <Text style={{ fontSize: 13 }}>{`ติดต่อ ${item.contact} `}</Text>
+                                    <TouchableOpacity onPress={() => {this.props.navigation.navigate('EditProfile', { data: item,  })  }}>
+                                        <Text style={styles.titletext}>{`${item.firstname} ${item.lastname}`}</Text>
+                                        <Text style={{ fontSize: 13 }}>{`อีเมล ${item.email}`}</Text>
+                                        <Text style={{ fontSize: 13 }}>{`เบอร์โทรศัพท์ ${item.mobile_phone} `}</Text>
                                     </TouchableOpacity>
                                 </View>
                             )
                         }} />
                 </View>
                 <Menu />
+                <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '-5%', backgroundColor: 'orange' }]} onPress={() => { this.props.navigation.navigate('Dashboard') }} testID="test">
+                    <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >เพิ่ม PP </Text>
+                </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnLogin, { left: '-35%', top: '-5%' }]} onPress={() => { this.props.navigation.navigate('AddProfile') }} testID="addPP">
                     <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >เพิ่ม PP ใหม่</Text>
                 </TouchableOpacity>

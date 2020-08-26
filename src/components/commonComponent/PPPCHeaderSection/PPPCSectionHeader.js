@@ -11,6 +11,7 @@ import {
   Text,
   Dimensions,
   Alert,
+  ScrollView
 } from 'react-native';
 import { images } from '../../../assets/images';
 import { colors } from '../../../assets/styles/colors';
@@ -31,8 +32,15 @@ export default class PPPCSectionHeader extends React.Component {
       enable: false,
       nameTitle: '',
       firstname: '',
-      lastname: ''
+      lastname: '',
+      nameTitle1: '',
+      firstname1: '',
+      lastname1: ''
     }
+  }
+
+  checkdata() {
+    this.props.navigation.navigate('AddProfile', { nameTitle: this.state.nameTitle, firstname: this.state.firstname, lastname: this.state.lastname })
   }
 
 
@@ -41,9 +49,9 @@ export default class PPPCSectionHeader extends React.Component {
       <View style={[styles.CONTAINER]}>
         {this.state.enable == false ?
           <View>
-            <TouchableOpacity style={styles.TouchableClose} >
+            <TouchableOpacity style={styles.TouchableClose} testID={`"${this.props.id}"`} >
               <View style={styles.SECTION_CONTENT}>
-                <Image source={images.required} style={styles.SECTION_IMAGE} />
+                <Image source={this.props.image} style={styles.SECTION_IMAGE} />
                 <View style={styles.SECTION_TEXT}>
                   <Text style={styles.TEXT} >
                     {`${this.props.name}`}
@@ -53,7 +61,7 @@ export default class PPPCSectionHeader extends React.Component {
                     }
                   </Text>
                 </View>
-                <TouchableOpacity onPress={() => this.setState({ enable: this.props.onPress })} testID="open">
+                <TouchableOpacity onPress={() => this.setState({ enable: !this.state.enable })} testID={`"${this.props.id}"`}>
                   <Icon name={'chevron-down'} style={styles.ICON} />
                 </TouchableOpacity>
               </View>
@@ -61,10 +69,10 @@ export default class PPPCSectionHeader extends React.Component {
           </View>
           :
           <View style={[styles.CONTAINER]}>
-            <TouchableOpacity style={[styles.TouchableOpen]}>
+            <TouchableOpacity style={[styles.TouchableOpen, {height: hp('32%')}]}>
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', backgroundColor: 'gray', }}>
-                <Image source={images.required} style={styles.SECTION_IMAGE_OPEN} />
-                <View style={{ top: '-32%', left: 15 }}>
+                <Image source={this.props.image} style={styles.SECTION_IMAGE_OPEN} />
+                <View style={{ top: '-28%', left: 15 }}>
                   <Text style={styles.TEXT} testID={'text'}>
                     {`${this.props.name}`}
                     {this.props.required ?
@@ -72,52 +80,87 @@ export default class PPPCSectionHeader extends React.Component {
                       : <Text style={{ color: colors.google }}>{'^'}</Text>}
                   </Text>
                 </View>
-
-                <View style={{ top: '-20%', right: '30%' }}>
-                  <Text style={styles.TEXT}>
-                    {`${langSearchPPPC.th.SalutationEmpty}`}
-                    <Text style={{ color: colors.google }}>{'*'}</Text>
-                  </Text>
-                  <TextInput
-                    style={styles.SECTION_TEXTINPUT}
-                    value={this.state.nameTitle}
-                    onChangeText={(nameTitle) => this.setState({ nameTitle })}
-                    testID={'nameTitle'}
-                  />
-                </View>
-
-                <View style={{ top: '0%', right: '145%' }}>
-                  <View style={{ flexDirection: 'row', top: wp('-7%') }}>
-                    <Text style={styles.TEXT}>
-                      {`${this.props.firstname}`}
-                      <Text style={{ color: colors.google }}>{'*'}</Text>
-                    </Text>
-                    <Text style={[styles.TEXT, { left: wp('33%') }]}>
-                      {`${langSearchPPPC.th.lastname}`}
-                      <Text style={{ color: colors.google }}>{'*'}</Text>
-                    </Text>
+                {this.props.id == '1' ?
+                  <View style={{ width: '100%', top: '5%', right: '-10%' }}>
+                    <View style={{ top: '-15%', right: '30%' }}>
+                      <Text style={styles.TEXT}>
+                        {`${langSearchPPPC.th.SalutationEmpty} ${this.props.id}`}
+                        <Text style={{ color: colors.google }}>{'*'}</Text>
+                      </Text>
+                      <TextInput
+                        style={[styles.SECTION_TEXTINPUT, { top: '10%', height: '25%' }]}
+                        value={this.state.nameTitle}
+                        onChangeText={(nameTitle) => this.setState({ nameTitle })}
+                        testID={'nameTitle'}
+                      />
+                      <View style={{ flexDirection: 'row', top: '5%' }}>
+                        <Text style={styles.TEXT}>
+                          {`${this.props.firstname}`}
+                          <Text style={{ color: colors.google }}>{'*'}</Text>
+                        </Text>
+                        <Text style={[styles.TEXT, { left: wp('40%') }]}>
+                          {`${langSearchPPPC.th.lastname}`}
+                          <Text style={{ color: colors.google }}>{'*'}</Text>
+                        </Text>
+                        <TextInput
+                          style={[styles.BOX_BETWEEN, { left: '-19%', top: wp('10%'), width: '40%', height: '100%' }]}
+                          value={this.state.firstname}
+                          onChangeText={(firstname) => this.setState({ firstname })}
+                          testID={'firstname'}
+                        />
+                        <TextInput
+                          style={[styles.BOX_BETWEEN, { left: '-12%',top: wp('10%'), width: '43%', height: '100%' }]}
+                          value={this.state.lastname}
+                          onChangeText={(lastname) => this.setState({ lastname })}
+                          testID={'password'}
+                        />
+                      </View>
+                    </View>
+                    <TouchableOpacity onPress={() => this.setState({ enable: !this.state.enable })} testID="close">
+                      <Icon name={'chevron-up'} style={{ left: wp('58%'), top: hp('-22%') }} />
+                    </TouchableOpacity>
                   </View>
+                  :
+                  <View style={{ width: '100%', top: '5%', right: '-10%' }}>
+                  <View style={{ top: '-15%', right: '30%' }}>
+                    <Text style={styles.TEXT}>
+                      {`${langSearchPPPC.th.SalutationEmpty} ${this.props.id}`}
+                      <Text style={{ color: colors.google }}>{'*'}</Text>
+                    </Text>
+                    <TextInput
+                      style={[styles.SECTION_TEXTINPUT, { top: '10%', height: '25%' }]}
+                      value={this.state.nameTitle1}
+                      onChangeText={(nameTitle1) => this.setState({ nameTitle1 })}
+                      testID={'nameTitle'}
+                    />
+                    <View style={{ flexDirection: 'row', top: '5%' }}>
+                      <Text style={styles.TEXT}>
+                        {`${this.props.firstname}`}
+                        <Text style={{ color: colors.google }}>{'*'}</Text>
+                      </Text>
+                      <Text style={[styles.TEXT, { left: wp('40%') }]}>
+                        {`${langSearchPPPC.th.lastname}`}
+                        <Text style={{ color: colors.google }}>{'*'}</Text>
+                      </Text>
+                      <TextInput
+                        style={[styles.BOX_BETWEEN, { left: '-19%', top: wp('10%'), width: '40%', height: '100%' }]}
+                        value={this.state.firstname1}
+                        onChangeText={(firstname1) => this.setState({ firstname1 })}
+                        testID={'firstname'}
+                      />
+                      <TextInput
+                        style={[styles.BOX_BETWEEN, { left: '-12%',top: wp('10%'), width: '43%', height: '100%' }]}
+                        value={this.state.lastname1}
+                        onChangeText={(lastname1) => this.setState({ lastname1 })}
+                        testID={'password'}
+                      />
+                    </View>
+                  </View>
+                  <TouchableOpacity onPress={() => this.setState({ enable: !this.state.enable })} testID="close">
+                    <Icon name={'chevron-up'} style={{ left: wp('58%'), top: hp('-22%') }} />
+                  </TouchableOpacity>
                 </View>
-
-                <View style={styles.SPACE_INPUT}>
-                  <TextInput
-                    style={[styles.BOX_BETWEEN]}
-                    value={this.state.firstname}
-                    onChangeText={(firstname) => this.setState({ firstname })}
-                    testID={'firstname'}
-                  />
-                  <TextInput
-                    style={[styles.BOX_BETWEEN, { left: '10%', width: wp('50%') }]}
-                    value={this.state.lastname}
-                    onChangeText={(lastname) => this.setState({ lastname })}
-                    testID={'lastname'}
-                  />
-                </View>
-
-                <TouchableOpacity onPress={() => this.setState({ enable: !this.props.onPress })} testID="close">
-                  <Icon name={'chevron-up'} style={{ left: wp('-65%'), top: '-42%' }} />
-                </TouchableOpacity>
-
+                }
               </View>
             </TouchableOpacity>
           </View>

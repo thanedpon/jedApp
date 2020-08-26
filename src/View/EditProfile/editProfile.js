@@ -17,31 +17,27 @@ import {
     AsyncStorage
 } from 'react-native';
 
-import { images } from '../../assets/images.js';
+import { images } from '../../assets/images';
 import styles from './index.js';
 import { Header } from 'react-native-elements';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
 import { colors } from '../../assets/styles/colors';
-import DropDownPicker from 'react-native-dropdown-picker';
 import Api from '../../api/allApi';
-const { width: WIDTH } = Dimensions.get('window');
-// import AsyncStorage from '@react-native-community/async-storage'
+import { withNavigation } from 'react-navigation';
 
-
-export default class Dashboard extends React.Component {
+class editProfile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             status: null,
-            token: '',
-            username: '',
+            firstname: '',
             lastname: '',
             email: '',
             mobile_phone: '',
-            ErrorStatus: true,
-            StatusPerson: '',
-            id: ''
+            id: '',
+            userId: '',
+            token: ''
         }
     }
 
@@ -49,54 +45,23 @@ export default class Dashboard extends React.Component {
         try {
             const retrievedItem = await AsyncStorage.getItem('Token');
             const item = JSON.parse(retrievedItem);
-            const retrievedId = await AsyncStorage.getItem('userId');
-            this.setState({ id: retrievedId, token: item.token })
+            const { data } = this.props.navigation.state.params;
+            this.setState({ id: JSON.stringify(data.id), token: item.token })
         } catch (err) {
             console.log(err)
         }
     }
 
-    onChangeText = (key, val) => {
+
+    onChangeText = async (key, val, data) => {
         try {
             this.setState({ [key]: val })
         } catch (e) {
             console.log(e)
         }
-        //this.setState({ [key]: val })
-    }
-
-    valid = async () => {
-        const { id, username, lastname, email, mobile_phone, StatusPerson } = this.state;
-        console.log(username)
-        let payload = {
-            token: this.state.token.toString(),
-            id: `${id}`,
-            username: username,
-            lastname: lastname,
-            email: email,
-            mobile_phone: mobile_phone,
-            status: StatusPerson
-        }
-        try {
-            if (username != '' && lastname != '' && email != '' && mobile_phone != '', StatusPerson != '') {
-                Api.addData(payload)
-                    .then((res) => {
-                        Alert.alert(res.data.message)
-                    })
-
-                this.props.navigation.navigate('Profile')
-            }
-            else {
-                Alert.alert('Fail')
-            }
-        } catch (err) {
-            // Alert.alert('error signing up: ', err)
-            this.props.navigation.navigate('Profile')
-        }
     }
 
     backButton() {
-        console.log('1')
         return (
             <View>
                 <TouchableOpacity onPress={() => { this.props.navigation.navigate('Profile') }}  >
@@ -107,37 +72,69 @@ export default class Dashboard extends React.Component {
         )
     }
 
+    changeName(text) {
+        this.setState({ firstname: text.firstname })
+    }
+
+    async updateProfile(data) {
+        const { id, firstname, lastname, email, mobile_phone, token } = this.state;
+        let payload = {
+            token: token.toString(),
+            id: id,
+            firstname: firstname != '' ? firstname : data.firstname,
+            lastname: lastname != '' ? lastname : data.lastname,
+            email: email != '' ? email : data.email,
+            mobile_phone: mobile_phone != '' ? mobile_phone : data.mobile_phone,
+        }
+        try {
+            if (payload) {
+                Api.updateData(payload)
+                    .then((res) => {
+                        Alert.alert(res.data.message)
+                    })
+                this.props.navigation.navigate('Profile')
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     render() {
-        var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+        const { data } = this.props.navigation.state.params;
+        const header = data.status == 'PP' || 'PC' ? `${langSearchPPPC.th.EditPC}` : `${langSearchPPPC.th.EditPS}`
         return (
             <View style={styles.container}>
                 <Header
                     barStyle="light-content"
                     leftComponent={this.backButton()}
-                    centerComponent={{ text: 'เพิ่มรายชื่อ', style: { color: 'black' } }}
+                    centerComponent={{ text: header }}
                     containerStyle={{
                         backgroundColor: 'white',
                         justifyContent: 'space-around',
                     }}
                 />
 
-                <View style={styles.content}>
+                <View style={styles.Section_Avatar}>
+                    <Image source={images.photo} style={styles.avatar} />
+                </View>
+
+                <View style={styles.Section_Textinput}>
                     <View>
                         <Text style={{ right: wp('-4%'), top: wp('2%') }} testID={'firstname'}>
-                            {`${langSearchPPPC.th.username}`}
+                            {`${langSearchPPPC.th.username} `}
                             <Text style={{ color: colors.google }}>{'*'}</Text>
                         </Text>
                         <TextInput
                             style={styles.input}
                             placeholder='Username'
+                            defaultValue={data.firstname}
                             autoCapitalize="none"
                             placeholderTextColor={colors.black50}
-                            onChangeText={val => this.onChangeText('username', val)}
+                            onChangeText={val => this.onChangeText('firstname', val)}
                             testID="inputusername"
                         />
-                        {!this.state.username ?
-                            <Text style={{ color: 'red', fontSize: 10, left: '5%' }}>* Please enter your username</Text>
+                        {!this.state.username && !data.firstname ?
+                            <Text style={{ color: 'red', fontSize: 10, left: '5%' }}>* Please enter your username </Text>
                             : null}
                     </View>
                     <View>
@@ -148,12 +145,13 @@ export default class Dashboard extends React.Component {
                         <TextInput
                             style={styles.input}
                             placeholder='Lastname'
+                            defaultValue={data.lastname}
                             autoCapitalize="none"
                             placeholderTextColor={colors.black50}
                             onChangeText={val => this.onChangeText('lastname', val)}
                             testID="inputlastname"
                         />
-                        {!this.state.lastname ?
+                        {!this.state.lastname && !data.lastname ?
                             <Text style={{ color: 'red', fontSize: 10, left: '5%' }}>* Please enter your lastname</Text>
                             : null}
                     </View>
@@ -166,14 +164,15 @@ export default class Dashboard extends React.Component {
                         <TextInput
                             style={styles.input}
                             placeholder='Email'
+                            defaultValue={data.email}
                             autoCapitalize="none"
                             placeholderTextColor={colors.black50}
                             onChangeText={val => this.onChangeText('email', val)}
                             testID="inputemail"
                         />
-                        {!pattern.test(this.state.email) ?
+                        {/* {!registerUser.patt.test(this.state.email) ?
                             <Text style={{ color: 'red', fontSize: 10, left: '5%' }}>* Please enter the text to proceed</Text>
-                            : null}
+                            : null} */}
                     </View>
 
                     <View>
@@ -184,45 +183,26 @@ export default class Dashboard extends React.Component {
                         <TextInput
                             style={styles.input}
                             placeholder='Phone Number'
+                            defaultValue={data.mobile_phone}
                             autoCapitalize="none"
                             placeholderTextColor={colors.black50}
                             onChangeText={val => this.onChangeText('mobile_phone', val)}
                             testID="inputphone"
                         />
-                        {!this.state.mobile_phone.match(/^[0-9]{10}$/) ?
+                        {!this.state.mobile_phone.match(/^[0-9]{10}$/) && !data.mobile_phone ?
                             <Text style={{ color: 'red', fontSize: 10, left: '5%' }}>* Please enter valid mobile no.</Text>
                             : null}
                     </View>
-                    <View>
-                        <Text style={{ right: wp('-1%'), top: '10%' }} >
-                            สถานะ
-                            <Text style={{ color: colors.google }}>{'*'}</Text>
-                        </Text>
-                        <DropDownPicker
-                            items={[
-                                { label: 'PP', value: 'PP' },
-                                { label: 'PC', value: 'PC' },
-                                { label: 'PS', value: 'PS' },
-                            ]}
-                            defaultValue={this.state.StatusPerson}
-                            containerStyle={styles.dropdown}
-                            style={{ backgroundColor: '#fafafa' }}
-                            itemStyle={{
-                                justifyContent: 'flex-start'
-                            }}
-                            dropDownStyle={{ backgroundColor: '#fafafa' }}
-                            onChangeItem={item => this.setState({
-                                StatusPerson: item.value
-                            })}
-                        />
-                    </View>
 
-                    <TouchableOpacity style={[styles.btnLogin, { left: '-0%', top: '20%' }]} onPress={this.valid} testID="test">
-                        <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >เพิ่มรายชื่อ</Text>
+                    <TouchableOpacity style={[styles.btnLogin, { right: '38%', top: '5%' }]} onPress={() => { this.updateProfile(data) }} testID="test">
+                        <Text style={[styles.titleButton, { alignItems: 'center', justifyContent: 'center' }]} accessibilityLabel="textpp" >{`${header}`}</Text>
                     </TouchableOpacity>
                 </View>
+
 
             </View>
         )
     }
 }
+
+export default withNavigation(editProfile)
