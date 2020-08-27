@@ -24,8 +24,6 @@ import styles from './index.js';
 import PinLogin from './pinlogin';
 import Api from '../../api/allApi';
 
-
-
 //const { width: WIDTH, height } = Dimensions.get('window')
 
 export default class LoginPage extends React.Component {
@@ -49,7 +47,7 @@ export default class LoginPage extends React.Component {
             let signInPayload = {
                 username: this.state.username,
                 password: this.state.password,
-                lastLogin_At: moment().format('YYYY-MM-DDTHH:mm:ss')
+                lastLoginAt: moment().format('YYYY-MM-DDTHH:mm:ss')
             }
 
             Api.SignIn(signInPayload)
@@ -60,6 +58,7 @@ export default class LoginPage extends React.Component {
                                 token: `${res.data.token}`,
                                 status: `${res.data.status}`
                             }
+
                             AsyncStorage.setItem('Token', JSON.stringify(UID));
                             this.props.navigation.navigate('Home', { status: `${res.data.status}` })
                         }

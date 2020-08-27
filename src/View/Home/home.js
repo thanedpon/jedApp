@@ -16,8 +16,11 @@ import styles from './index.js';
 import { images } from '../../assets/images.js';
 import Menu from '../../components/menu/menu';
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
-import Api from '../../api/allApi';
+import { Api } from '../../api/allApi';
 import { withNavigation } from 'react-navigation';
+
+
+const firebase = require('firebase');
 // import AsyncStorage from '@react-native-community/async-storage';
 
 
@@ -60,8 +63,8 @@ class Home extends React.Component {
                     let item = (JSON.parse(res.data.userId)).toString();
                     AsyncStorage.setItem('userId', `${item}`);
                 });
-        } catch (e) {
-            console.log(e)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -70,13 +73,8 @@ class Home extends React.Component {
     }
 
     logout() {
-        Alert.alert('1')
-        console.log('logout')
         this.props.navigation.navigate('LoginPage');
     }
-
-
-
 
     render() {
         return (

@@ -168,7 +168,7 @@ export default class Profile extends React.Component {
                         renderItem={({ item }) => {
                             return (
                                 <View style={styles.item}>
-                                    <TouchableOpacity onPress={() => {this.props.navigation.navigate('EditProfile', { data: item,  })  }}>
+                                    <TouchableOpacity onPress={() => {this.props.navigation.navigate('EditProfile', { data: item,  })}} testID={`"${item.firstname}"`}>
                                         <Text style={styles.titletext}>{`${item.firstname} ${item.lastname}`}</Text>
                                         <Text style={{ fontSize: 13 }}>{`อีเมล ${item.email}`}</Text>
                                         <Text style={{ fontSize: 13 }}>{`เบอร์โทรศัพท์ ${item.mobile_phone} `}</Text>

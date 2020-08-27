@@ -1,4 +1,5 @@
 import Api from './api';
+import refLogin from '../config/firebase';
 
 
 export default {
@@ -7,7 +8,7 @@ export default {
             JSON.stringify({
                 username: payload.username,
                 password: payload.password,
-                lastLogin_At: payload.lastLogin_At
+                lastLoginAt: payload.lastLoginAt
             }))
     },
     getProfile(payload) {
@@ -20,15 +21,16 @@ export default {
         }
         )
     },
-    addData(payload) {
-        return Api().post('/dev/addData',
+    createProfile(payload) {
+        return Api().post('/dev/createProfile',
             JSON.stringify({
                 user_id: payload.id,
                 username: payload.username,
                 lastname: payload.lastname,
                 email: payload.email,
                 mobile_phone: payload.mobile_phone,
-                status: payload.status
+                status: payload.status,
+                createdAt: payload.createdAt
             }), {
             headers: {
                 'Accept': 'application/json',
@@ -62,6 +64,15 @@ export default {
             },
         }
         )
-    }
-
+    },
+    // SignInFirebase(payload) {
+    //     return refLogin.set({
+    //         user_id: payload.user_id,
+    //         lastLoginAt: payload.lastLoginAt
+    //     }).then((data) => {
+    //         console.log(data)
+    //     }).catch((err) => {
+    //         console.log('err', err)
+    //     })
+    // },
 }

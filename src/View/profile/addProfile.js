@@ -96,12 +96,12 @@ export default class AddProfile extends React.Component {
                 />
                 {this.state.selectedIndex == '0' ?
                     <View>
-                        <ScrollView style={{ alignSelf: 'stretch' }} onContentSizeChange={this.onContentSizeChange} testID={'screen'}>
+                        <ScrollView style={{ alignSelf: 'stretch', width: '100%' }} onContentSizeChange={this.onContentSizeChange} testID={'screen'}>
                             {
                                 Arr.map((prop, key) => {
                                     return (
                                         <View>
-                                            <ScrollView style={{ alignSelf: 'stretch' }} scrollEnabled={scrollEnable} >
+                                            <ScrollView style={{ alignSelf: 'stretch', width: '100%' }} scrollEnabled={scrollEnable} >
                                                 <PPPCSectionHeader
                                                     key={key}
                                                     style={styles.SECTION_HEADER}
@@ -111,13 +111,14 @@ export default class AddProfile extends React.Component {
                                                     image={prop.image}
                                                     testIDUsername={prop.testUsername}
                                                     testIDPassword={prop.testPasswords}
+                                                    enable={prop.enable}
                                                     required
                                                 />
-                                                {this.state.enable == true ?
+                                                {/* {this.state.enable == true ?
                                                     <View />
                                                     :
                                                     <View style={{ height: '15%' }} />
-                                                }
+                                                } */}
                                             </ScrollView>
                                         </View>
                                     );

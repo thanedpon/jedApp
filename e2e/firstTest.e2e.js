@@ -27,26 +27,36 @@ describe('Login with SM ID', () => {
 
     await element(by.text('Tap Me!'));
 
+
     await element(by.id('addPP')).tap();
     // await element(by.id('test')).tap();
 
   });
 
-  test('case 4 Add PP', async() => {
+  // test('case 4 Add PP', async() => {
 
-    // await expect(element(by.id('firstname'))).toBeVisible();
-    // await element(by.id('inputusername')).typeText('สมจิต');
+  //   // await element(by.id('ชื่อ')).tap();
+
+  //   await element(by.id('nameTitle')).typeText('สมชาย');
+
+  //   await element(by.id('firstname')).typeText('สมชาย');
+
+  //   await element(by.id('lastname')).typeText('ทองคำ');
+
+  //   // await element(by.id('ชื่อ')).tap();
+  //   // await expect(element(by.id('firstname'))).toBeVisible();
+  //   // await element(by.id('inputusername')).typeText('สมจิต');
     
-    // await expect(element(by.id('lastname'))).toBeVisible();
-    // await element(by.id('inputlastname')).typeText('ทองดี');
+  //   // await expect(element(by.id('lastname'))).toBeVisible();
+  //   // await element(by.id('inputlastname')).typeText('ทองดี');
 
-    // await expect(element(by.id('email'))).toBeVisible();
-    // await element(by.id('inputemail')).typeText('lala@hotmail.com');
+  //   // await expect(element(by.id('email'))).toBeVisible();
+  //   // await element(by.id('inputemail')).typeText('lala@hotmail.com');
 
-    // await expect(element(by.id('phone'))).toBeVisible();
-    // await element(by.id('inputphone')).typeText('0973359065');
+  //   // await expect(element(by.id('phone'))).toBeVisible();
+  //   // await element(by.id('inputphone')).typeText('0973359065');
     
-    // await element(by.id('button')).tap();
+  //   // await element(by.id('button')).tap();
 
-  });
+  // });
 });

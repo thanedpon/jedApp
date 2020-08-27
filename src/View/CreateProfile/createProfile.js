@@ -25,6 +25,7 @@ import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
 import { colors } from '../../assets/styles/colors';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Api from '../../api/allApi';
+import moment from 'moment';
 const { width: WIDTH } = Dimensions.get('window');
 
 
@@ -74,11 +75,12 @@ export default class createdProfile extends React.Component {
             lastname: lastname,
             email: email,
             mobile_phone: mobile_phone,
-            status: StatusPerson
+            status: StatusPerson,
+            createdAt: moment().format('YYYY-MM-DDTHH:mm:ss')
         }
         try {
             if (username != '' && lastname != '' && email != '' && mobile_phone != '', StatusPerson != '') {
-                Api.addData(payload)
+                Api.createProfile(payload)
                     .then((res) => {
                         Alert.alert(res.data.message)
                     })
@@ -101,10 +103,8 @@ export default class createdProfile extends React.Component {
                     <Image source={images.arrow} style={{ height: 15, width: 25 }} />
                 </TouchableOpacity>
             </View>
-
         )
     }
-
 
     render() {
         var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
