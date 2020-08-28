@@ -50,7 +50,9 @@ export default class createdProfile extends React.Component {
             const retrievedItem = await AsyncStorage.getItem('Token');
             const item = JSON.parse(retrievedItem);
             const retrievedId = await AsyncStorage.getItem('userId');
-            this.setState({ id: retrievedId, token: item.token })
+            // Alert.alert(JSON.parse(retrievedId))
+            this.setState({ id: JSON.parse(retrievedId), token: item.token })
+
         } catch (err) {
             console.log(err)
         }
@@ -67,7 +69,6 @@ export default class createdProfile extends React.Component {
 
     valid = async () => {
         const { id, username, lastname, email, mobile_phone, StatusPerson } = this.state;
-        console.log(username)
         let payload = {
             token: this.state.token.toString(),
             id: `${id}`,
@@ -76,8 +77,11 @@ export default class createdProfile extends React.Component {
             email: email,
             mobile_phone: mobile_phone,
             status: StatusPerson,
-            createdAt: moment().format('YYYY-MM-DDTHH:mm:ss')
+            created_at: moment().format('YYYY-MM-DDTHH:mm:ss')
         }
+        Alert.alert(id)
+        Alert.alert(this.state.id)
+        console.log(payload)
         try {
             if (username != '' && lastname != '' && email != '' && mobile_phone != '', StatusPerson != '') {
                 Api.createProfile(payload)
@@ -91,7 +95,7 @@ export default class createdProfile extends React.Component {
                 Alert.alert('Fail')
             }
         } catch (err) {
-            // Alert.alert('error signing up: ', err)
+            Alert.alert('error signing up: ', err)
             this.props.navigation.navigate('Profile')
         }
     }

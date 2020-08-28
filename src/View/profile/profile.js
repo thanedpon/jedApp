@@ -26,6 +26,7 @@ import { Header } from 'react-native-elements';
 import SegmentedControlTab from 'react-native-segmented-control-tab'
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
 import Api from '../../api/allApi';
+// import AsyncStorage from '@react-native-community/async-storage';
 
 const { width: WIDTH } = Dimensions.get('window');
 let dataPersonal;
@@ -94,6 +95,7 @@ export default class Profile extends React.Component {
             const retrievedItem = await AsyncStorage.getItem('Token');
             const retrievedId = await AsyncStorage.getItem('userId');
             const item = JSON.parse(retrievedItem);
+            // Alert.alert('id', retrievedId)
             this.setState({ status: item.status, id: retrievedId });
             Api.getProfileData(item.token)
                 .then((res) => {

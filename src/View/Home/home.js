@@ -16,13 +16,12 @@ import styles from './index.js';
 import { images } from '../../assets/images.js';
 import Menu from '../../components/menu/menu';
 import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
-import { Api } from '../../api/allApi';
+import Api from '../../api/allApi';
 import { withNavigation } from 'react-navigation';
 
 
-const firebase = require('firebase');
-// import AsyncStorage from '@react-native-community/async-storage';
-
+// const firebase = require('firebase');
+//import AsyncStorage from '@react-native-community/async-storage';
 
 
 const { width: WIDTH, height } = Dimensions.get('window')
@@ -49,6 +48,7 @@ class Home extends React.Component {
             ],
             status: null,
             id: '',
+            item: '',
         }
     }
 
@@ -58,11 +58,20 @@ class Home extends React.Component {
             const retrievedItem = await AsyncStorage.getItem('Token');
             const item = JSON.parse(retrievedItem);
             this.setState({ status: item.status });
-            Api.getProfile(item.token)
-                .then(res => {
-                    let item = (JSON.parse(res.data.userId)).toString();
-                    AsyncStorage.setItem('userId', `${item}`);
-                });
+            // Api.getProfile(item.token)
+            //     .then((res) => {
+            //         // let item = (JSON.parse(res.data.userId)).toString();
+            //         let item = {
+            //             userId : JSON.parse(res.data.userId)
+            //         }
+            //         AsyncStorage.setItem('userId', JSON.stringify(`${item}`));
+            //         Alert.alert(item)
+            //     });
+            Api.getProfile(item.token).then(res => {
+                // Alert.alert(JSON.parse(res.data.data.userId))
+                let item = (JSON.parse(res.data.userId)).toString();
+                AsyncStorage.setItem('userId', JSON.stringify(`${item}`));
+            });
         } catch (error) {
             console.log(error)
         }
@@ -83,9 +92,9 @@ class Home extends React.Component {
                 <View style={[styles.box]}>
                     <View style={{ justifyContent: "flex-start", alignItems: 'center', alignSelf: 'center', top: WIDTH / 16 }}>
                         {this.state.status == 'SM' ?
-                            <Text style={[styles.title, { fontWeight: 'bold' }]} testID="header"> {`${langSearchPPPC.th.SC} ${this.state.id} อีซูซุ`}</Text>
+                            <Text style={[styles.title, { fontWeight: 'bold' }]} testID="header"> {`${langSearchPPPC.th.SC} อีซูซุ`}</Text>
                             :
-                            <Text style={[styles.title, { fontWeight: 'bold' }]} testID="header"> {`${langSearchPPPC.th.SM} อีซูซุ`}</Text>
+                            <Text style={[styles.title, { fontWeight: 'bold' }]} testID="header"> {`${langSearchPPPC.th.SM} อีซูซุ `}</Text>
                         }
                     </View>
                     <Image source={images.logo} style={styles.photoInfo} />

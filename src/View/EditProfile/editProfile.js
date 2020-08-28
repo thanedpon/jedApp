@@ -25,6 +25,7 @@ import { langSearchPPPC } from '../../assets/languages/langSearchPPPC';
 import { colors } from '../../assets/styles/colors';
 import Api from '../../api/allApi';
 import { withNavigation } from 'react-navigation';
+import moment from 'moment';
 
 class editProfile extends React.Component {
     constructor(props) {
@@ -82,10 +83,11 @@ class editProfile extends React.Component {
             lastname: lastname != '' ? lastname : data.lastname,
             email: email != '' ? email : data.email,
             mobile_phone: mobile_phone != '' ? mobile_phone : data.mobile_phone,
+            updated_at: moment().format('YYYY-MM-DDTHH:mm:ss')
         }
         try {
             if (payload) {
-                Api.updateData(payload)
+                Api.updateProfile(payload)
                     .then((res) => {
                         Alert.alert(res.data.message)
                     })

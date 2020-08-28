@@ -47,7 +47,7 @@ export default class LoginPage extends React.Component {
             let signInPayload = {
                 username: this.state.username,
                 password: this.state.password,
-                lastLoginAt: moment().format('YYYY-MM-DDTHH:mm:ss')
+                lastlogin_at: moment().format('YYYY-MM-DDTHH:mm:ss')
             }
 
             Api.SignIn(signInPayload)

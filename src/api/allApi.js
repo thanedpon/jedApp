@@ -2,13 +2,14 @@ import Api from './api';
 import refLogin from '../config/firebase';
 
 
+
 export default {
     SignIn(payload) {
         return Api().post('/dev/login',
             JSON.stringify({
                 username: payload.username,
                 password: payload.password,
-                lastLoginAt: payload.lastLoginAt
+                lastLoginAt: payload.lastlogin_at
             }))
     },
     getProfile(payload) {
@@ -30,7 +31,7 @@ export default {
                 email: payload.email,
                 mobile_phone: payload.mobile_phone,
                 status: payload.status,
-                createdAt: payload.createdAt
+                created_at: payload.created_at
             }), {
             headers: {
                 'Accept': 'application/json',
@@ -39,14 +40,15 @@ export default {
             }
         })
     },
-    updateData(payload) {
-        return Api().post('/dev/updateData',
+    updateProfile(payload) {
+        return Api().post('/dev/updateProfile',
             JSON.stringify({
                 id: payload.id,
-                firstname: payload.firstname,
+                username: payload.firstname,
                 lastname: payload.lastname,
                 email: payload.email,
                 mobile_phone: payload.mobile_phone,
+                updated_at: payload.updated_at
             }), {
             headers: {
                 'Accept': 'application/json',
