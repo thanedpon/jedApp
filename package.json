@@ -18,6 +18,8 @@
     "axios": "^0.19.2",
     "firebase": "^7.19.0",
     "hoist-non-react-statics": "^3.3.2",
+    "ios-deploy": "^1.11.1",
+    "match": "^1.2.10",
     "moment": "^2.27.0",
     "native-base": "^2.13.13",
     "prop-types": "^15.7.2",

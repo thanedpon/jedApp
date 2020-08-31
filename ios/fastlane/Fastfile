@@ -1,0 +1,40 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+desc "Create"
+lane :create_app do
+  create_app_online #produce
+end
+
+platform :ios do
+  desc "Sync signing"
+  lane :signing do 
+
+  end
+
+  desc "Build binary"
+  lane :build do
+    signing
+    increment_build_number(xcodeproj:"jedApp.xcodeproj")
+  end
+
+  desc "Release"
+  lane :release do
+    build
+  end
+end
+
+
+

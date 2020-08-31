@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:3000';
 
 export default() => {
     return axios.create({
-        baseURL: 'https://b8bb602847b4.ngrok.io'
+        baseURL: 'https://379ea9d8d342.ngrok.io'
     })
 }
 
